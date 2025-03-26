@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropBot: System Diagrams</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #3c68b1;
+            --primary-light: #eef2f9;
+            --secondary: #ff6b6b;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --info: #3498db;
+            --text: #333;
+            --light-text: #6c757d;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            padding-top: 20px;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .dashboard-header h1 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-header p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .diagram-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .diagram-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-zoom {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-zoom:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .zoom-level {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--primary-light);
+            border-radius: 5px;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .diagram-container {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 20px;
+            overflow: auto;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .diagram-description {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--primary-light);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .diagram-description h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .diagram-description ul {
+            padding-left: 20px;
+        }
+        
+        .diagram-description li {
+            margin-bottom: 5px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid var(--primary-light);
+            margin-bottom: 30px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 10px 20px;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border: none;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        .nav-tabs .nav-link.active {
+            border: none;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            margin-top: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--light-text);
+            font-size: 0.9em;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        @media (max-width: 768px) {
+            .diagram-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>PropBot: AI-Powered Real Estate Outreach</h1>
+            <p>Interactive system architecture and workflow diagrams for the PropBot automated property owner engagement platform</p>
+        </div>
+        
+        <ul class="nav nav-tabs" id="diagramTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="architecture-tab" data-bs-toggle="tab" data-bs-target="#architecture" type="button" role="tab" aria-controls="architecture" aria-selected="true">System Architecture</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="conversation-tab" data-bs-toggle="tab" data-bs-target="#conversation" type="button" role="tab" aria-controls="conversation" aria-selected="false">Conversation Flow</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="abtesting-tab" data-bs-toggle="tab" data-bs-target="#abtesting" type="button" role="tab" aria-controls="abtesting" aria-selected="false">A/B Testing</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="diagramTabsContent">
+            <!-- System Architecture Tab -->
+            <div class="tab-pane fade show active" id="architecture" role="tabpanel" aria-labelledby="architecture-tab">
+                <div class="diagram-card">
+                    <div class="diagram-header">
+                        <h2>System Architecture</h2>
+                        <div class="controls">
+                            <button class="btn-zoom zoom-in" data-target="architecture-diagram">Zoom In</button>
+                            <button class="btn-zoom zoom-out" data-target="architecture-diagram">Zoom Out</button>
+                            <button class="btn-zoom zoom-reset" data-target="architecture-diagram">Reset Zoom</button>
+                            <span class="zoom-level" id="architecture-zoom-level">100%</span>
+                        </div>
+                    </div>
+                    <div class="diagram-container" id="architecture-diagram-container">
+                        <div class="mermaid" id="architecture-diagram">
+                        <!-- System Architecture diagram will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="diagram-description">
+                        <h3>System Architecture Overview</h3>
+                        <p>This diagram illustrates the complete system architecture for the PropBot real estate outreach platform, showing how data flows through the different components:</p>
+                        <ul>
+                            <li><strong>Data Sources</strong> (Blue): Property data, contact information, and market data are collected and processed.</li>
+                            <li><strong>Core System</strong> (Orange): The CRM system integrates with the AI Engine and SMS platform to manage contacts and conversations.</li>
+                            <li><strong>User Interface</strong> (Green): Provides dashboards and monitoring tools for the real estate team.</li>
+                            <li><strong>Outreach Process</strong> (Red): The workflow from initial contact through qualification to handoff.</li>
+                            <li><strong>External Systems</strong> (Purple): Property owners, agents, and transaction platforms that interact with the system.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conversation Flow Tab -->
+            <div class="tab-pane fade" id="conversation" role="tabpanel" aria-labelledby="conversation-tab">
+                <div class="diagram-card">
+                    <div class="diagram-header">
+                        <h2>Conversation Flow</h2>
+                        <div class="controls">
+                            <button class="btn-zoom zoom-in" data-target="conversation-diagram">Zoom In</button>
+                            <button class="btn-zoom zoom-out" data-target="conversation-diagram">Zoom Out</button>
+                            <button class="btn-zoom zoom-reset" data-target="conversation-diagram">Reset Zoom</button>
+                            <span class="zoom-level" id="conversation-zoom-level">100%</span>
+                        </div>
+                    </div>
+                    <div class="diagram-container" id="conversation-diagram-container">
+                        <div class="mermaid" id="conversation-diagram">
+                        <!-- Conversation Flow diagram will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="diagram-description">
+                        <h3>Conversation Flow</h3>
+                        <p>This state diagram shows the AI chatbot's decision-making process during property owner interactions:</p>
+                        <ul>
+                            <li><strong>Initial Outreach</strong>: The process begins by sending the first message to the property owner.</li>
+                            <li><strong>Response Analysis</strong>: The AI identifies the intent behind the property owner's response.</li>
+                            <li><strong>Qualification Process</strong>: For interested owners, the bot asks a series of qualifying questions.</li>
+                            <li><strong>Lead Scoring</strong>: Based on responses, leads are categorized as high, medium, or low value.</li>
+                            <li><strong>Action Paths</strong>: High-value leads trigger human handoff, while others are placed in nurture sequences.</li>
+                        </ul>
+                        <p>The system handles various response scenarios including no response, objections, and information requests, with appropriate follow-up actions for each.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- A/B Testing Tab -->
+            <div class="tab-pane fade" id="abtesting" role="tabpanel" aria-labelledby="abtesting-tab">
+                <div class="diagram-card">
+                    <div class="diagram-header">
+                        <h2>A/B Testing Framework</h2>
+                        <div class="controls">
+                            <button class="btn-zoom zoom-in" data-target="abtesting-diagram">Zoom In</button>
+                            <button class="btn-zoom zoom-out" data-target="abtesting-diagram">Zoom Out</button>
+                            <button class="btn-zoom zoom-reset" data-target="abtesting-diagram">Reset Zoom</button>
+                            <span class="zoom-level" id="abtesting-zoom-level">100%</span>
+                        </div>
+                    </div>
+                    <div class="diagram-container" id="abtesting-diagram-container">
+                        <div class="mermaid" id="abtesting-diagram">
+                        <!-- A/B Testing diagram will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="diagram-description">
+                        <h3>A/B Testing Framework</h3>
+                        <p>This flowchart illustrates the continuous improvement process for message optimization:</p>
+                        <ul>
+                            <li><strong>Test Creation</strong>: Multiple message variants are created with different tones and approaches.</li>
+                            <li><strong>Audience Segmentation</strong>: Property owners are randomly assigned to receive different message variants.</li>
+                            <li><strong>Performance Tracking</strong>: Response rates and engagement metrics are measured for each variant.</li>
+                            <li><strong>Winner Selection</strong>: The best-performing variant is identified based on conversion metrics.</li>
+                            <li><strong>Optimization Cycle</strong>: The winning variant becomes the control for future tests, creating a continuous improvement loop.</li>
+                        </ul>
+                        <p>This framework ensures that outreach messages become increasingly effective over time, leading to higher engagement and conversion rates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 PropBot | Interactive Diagrams</p>
+    </footer>
+
+    <!-- Load required scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+        
+        // Diagram zoom functionality
+        const diagramZoom = {
+            'architecture-diagram': 100,
+            'conversation-diagram': 100,
+            'abtesting-diagram': 100
+        };
+        
+        function updateZoom(targetId) {
+            const container = document.getElementById(`${targetId}-container`);
+            const zoomLevel = document.getElementById(`${targetId.split('-')[0]}-zoom-level`);
+            
+            if (container && zoomLevel) {
+                container.style.transform = `scale(${diagramZoom[targetId]/100})`;
+                container.style.transformOrigin = 'top left';
+                zoomLevel.textContent = `${diagramZoom[targetId]}%`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load diagram content
+            loadDiagrams();
+            
+            // Set up zoom button event listeners
+            document.querySelectorAll('.zoom-in').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    diagramZoom[targetId] += 10;
+                    updateZoom(targetId);
+                });
+            });
+            
+            document.querySelectorAll('.zoom-out').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    diagramZoom[targetId] = Math.max(30, diagramZoom[targetId] - 10);
+                    updateZoom(targetId);
+                });
+            });
+            
+            document.querySelectorAll('.zoom-reset').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    diagramZoom[targetId] = 100;
+                    updateZoom(targetId);
+                });
+            });
+        });
+        
+        // Function to load diagrams from MD files
+        async function loadDiagrams() {
+            try {
+                // Load System Architecture Diagram
+                const architectureResponse = await fetch('../diagrams/system_architecture.md');
+                const architectureText = await architectureResponse.text();
+                const architectureDiagram = extractMermaidCode(architectureText);
+                document.getElementById('architecture-diagram').textContent = architectureDiagram;
+                
+                // Load Conversation Flow Diagram
+                const conversationResponse = await fetch('../diagrams/conversation_flow.md');
+                const conversationText = await conversationResponse.text();
+                const conversationDiagram = extractMermaidCode(conversationText);
+                document.getElementById('conversation-diagram').textContent = conversationDiagram;
+                
+                // Load A/B Testing Diagram
+                const abtestingResponse = await fetch('../diagrams/ab_testing.md');
+                const abtestingText = await abtestingResponse.text();
+                const abtestingDiagram = extractMermaidCode(abtestingText);
+                document.getElementById('abtesting-diagram').textContent = abtestingDiagram;
+                
+                // Initialize Mermaid after loading content
+                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (error) {
+                console.error('Error loading diagrams:', error);
+            }
+        }
+        
+        // Helper function to extract the Mermaid code from markdown
+        function extractMermaidCode(markdownText) {
+            const regex = /```mermaid\n([\s\S]*?)```/;
+            const match = markdownText.match(regex);
+            return match ? match[1] : '';
+        }
+    </script>
+</body>
+</html>
