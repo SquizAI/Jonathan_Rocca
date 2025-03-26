@@ -267,38 +267,32 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
     
     <script>
-        // Initialize Mermaid
+        // Initialize Mermaid with specific configuration
         mermaid.initialize({
-            startOnLoad: true,
+            startOnLoad: false,  // We'll manually initialize after loading content
             theme: 'default',
-            securityLevel: 'loose'
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true
+            }
         });
         
         // Load diagram content
-        document.addEventListener('DOMContentLoaded', async function() {
-            try {
-                // Load component diagrams
-                await loadDiagram('components/data_sources.md', 'data-sources-diagram');
-                await loadDiagram('components/core_system.md', 'core-system-diagram');
-                await loadDiagram('components/user_interface.md', 'user-interface-diagram');
-                await loadDiagram('components/outreach_process.md', 'outreach-process-diagram');
-                await loadDiagram('components/external_systems.md', 'external-systems-diagram');
-                await loadDiagram('components/system_connections.md', 'system-connections-diagram');
-                
-                // Load full system architecture
-                await loadDiagram('components/complete_system.md', 'complete-system-diagram');
-                
-                // Load other diagrams
-                await loadDiagram('../diagrams/conversation_flow.md', 'conversation-flow-diagram');
-                await loadDiagram('../diagrams/ab_testing.md', 'ab-testing-diagram');
-                
-                // Initialize all diagrams
-                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-            } catch (error) {
-                console.error('Error loading diagrams:', error);
-                // Fallback to embedded diagrams if fetch fails
-                loadEmbeddedDiagrams();
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Use the embedded diagrams directly instead of trying to load from files
+            // This is more reliable for GitHub Pages
+            loadEmbeddedDiagrams();
+            
+            // After a short delay to ensure DOM is ready
+            setTimeout(() => {
+                try {
+                    // Initialize all diagrams
+                    mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+                } catch (error) {
+                    console.error('Error initializing Mermaid:', error);
+                }
+            }, 500);
         });
         
         // Function to load diagram from MD file
