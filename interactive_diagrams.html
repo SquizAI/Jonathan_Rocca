@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive AI Bot Architecture Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .diagram-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+            overflow: auto;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f1f8ff;
+            border-radius: 8px;
+            border: 1px solid #d1e6ff;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        .zoom-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        #highlights {
+            margin-top: 15px;
+        }
+        #highlights div {
+            cursor: pointer;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        #highlights div:hover {
+            background-color: #e1f0fa;
+        }
+        .highlight-item {
+            background-color: #f1f8ff;
+            border-left: 4px solid #3498db;
+            padding-left: 15px !important;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Bot for Real Estate Outreach</h1>
+        <h2>Interactive System Architecture Diagrams</h2>
+        
+        <div class="controls">
+            <div class="mb-3">
+                <label for="diagram-selector" class="form-label">Select Diagram</label>
+                <select class="form-select" id="diagram-selector">
+                    <option value="system-arch">System Architecture</option>
+                    <option value="convo-flow">Conversation Flow</option>
+                    <option value="ab-testing">A/B Testing Implementation</option>
+                </select>
+            </div>
+            
+            <div class="zoom-buttons">
+                <button class="btn btn-primary" id="zoom-in">Zoom In</button>
+                <button class="btn btn-primary" id="zoom-out">Zoom Out</button>
+                <button class="btn btn-secondary" id="reset-zoom">Reset</button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Highlight Component:</label>
+                <div id="highlights" class="highlights-container">
+                    <!-- Dynamically filled based on selected diagram -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="diagram-container">
+            <!-- System Architecture Diagram -->
+            <div id="system-arch" class="mermaid-diagram" style="display:block;">
+graph TD
+    subgraph "Data Sources"
+        A1["Property Ownership Data"] --> A2["Data Processing Pipeline"]
+        A3["Contact Information<br/>(Skip Tracing)"] --> A2
+        A4["Property Details<br/>(APNs, Addresses)"] --> A2
+        A5["Market Data"] --> A2
+    end
+
+    subgraph "Core System"
+        B1["CRM System<br/>(Go High Level)"]
+        B2["AI Engine<br/>(LLM-based Chatbot)"]
+        B3["SMS Platform<br/>(Twilio)"]
+        B4["Analytics Engine"]
+        
+        A2 --> B1
+        B1 <--> B2
+        B2 <--> B3
+        B1 <--> B4
+        B2 --> B4
+        B3 --> B4
+    end
+    
+    subgraph "User Interface"
+        C1["Admin Dashboard"]
+        C2["Lead Notification System"]
+        C3["Conversation Monitoring"]
+        C4["Campaign Management"]
+        
+        B1 --> C1
+        B1 --> C2
+        B3 --> C3
+        B1 --> C4
+        B4 --> C1
+    end
+    
+    subgraph "Outreach Process"
+        D1["Initial Contact"]
+        D2["Conversation Flow"]
+        D3["Lead Qualification"]
+        D4["Human Handoff"]
+        D5["Nurture Sequences"]
+        
+        D1 --> D2
+        D2 --> D3
+        D3 --> D4
+        D3 --> D5
+        D5 -.-> D1
+    end
+    
+    B3 <--> D1
+    B2 <--> D2
+    B2 <--> D3
+    B1 <--> D4
+    B1 <--> D5
+    
+    subgraph "External Systems"
+        E1["Property Owners<br/>(SMS Recipients)"]
+        E2["Real Estate Agents"]
+        E3["Transaction Platform"]
+        
+        D1 <--> E1
+        D2 <--> E1
+        D4 --> E2
+        E2 <--> E3
+    end
+    
+    style A1 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A2 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A3 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A4 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A5 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    
+    style B1 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B2 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B3 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B4 fill:#ffdebd,stroke:#333,stroke-width:2px
+    
+    style C1 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C2 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C3 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C4 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    
+    style D1 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D2 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D3 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D4 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D5 fill:#fadbd8,stroke:#333,stroke-width:1px
+    
+    style E1 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E2 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E3 fill:#e8daef,stroke:#333,stroke-width:1px
+            </div>
+            
+            <!-- Conversation Flow Diagram -->
+            <div id="convo-flow" class="mermaid-diagram" style="display:none;">
+stateDiagram-v2
+    [*] --> InitialOutreach
+    
+    state InitialOutreach {
+        [*] --> SendMessage
+        SendMessage --> AwaitingResponse
+        AwaitingResponse --> NoResponse: 24hrs elapsed
+        NoResponse --> ScheduleFollowUp
+        AwaitingResponse --> ResponseReceived
+    }
+    
+    state ResponseAnalysis {
+        [*] --> IdentifyIntent
+        IdentifyIntent --> Interested: Positive signals
+        IdentifyIntent --> NotInterested: Clear rejection
+        IdentifyIntent --> NeedsMoreInfo: Questions detected
+        IdentifyIntent --> Skeptical: Objections detected
+    }
+    
+    ResponseReceived --> ResponseAnalysis
+    
+    state QualificationProcess {
+        [*] --> AskPropertyStatus
+        AskPropertyStatus --> AskFinancialQuestions
+        AskFinancialQuestions --> AssessTimeframe
+        AssessTimeframe --> ScoreLead
+    }
+    
+    Interested --> QualificationProcess
+    NotInterested --> ScheduleFollowUp: 6-8 weeks later
+    NeedsMoreInfo --> ProvideInformation
+    Skeptical --> HandleObjection
+    
+    ProvideInformation --> RequestNextAction
+    HandleObjection --> RequestNextAction
+    
+    RequestNextAction --> ResponseAnalysis
+    
+    ScoreLead --> HighValue: Score > 80%
+    ScoreLead --> MediumValue: Score 40-80%
+    ScoreLead --> LowValue: Score < 40%
+    
+    HighValue --> TriggerHumanHandoff
+    MediumValue --> ScheduleFollowUp: 1-2 weeks later
+    LowValue --> ScheduleFollowUp: 1-3 months later
+    
+    TriggerHumanHandoff --> [*]
+    ScheduleFollowUp --> [*]
+            </div>
+            
+            <!-- A/B Testing Implementation -->
+            <div id="ab-testing" class="mermaid-diagram" style="display:none;">
+flowchart TD
+    A[Start Campaign] --> B{Create Test Variants}
+    B --> C1[Variant A:<br/>Professional Tone]
+    B --> C2[Variant B:<br/>Casual Tone]
+    B --> C3[Variant C:<br/>Problem-Solution]
+    
+    C1 --> D[Segment Audience<br/>Randomly]
+    C2 --> D
+    C3 --> D
+    
+    D --> E[Send Messages<br/>Track Performance]
+    
+    E --> F[Analyze Results]
+    F --> G{Select Winner}
+    
+    G --> H1[Winner Becomes<br/>New Control]
+    G --> H2[Create New<br/>Test Variants]
+    
+    H1 --> I[Scale to<br/>Full Audience]
+    H2 --> J[Start New<br/>Test Cycle]
+    
+    I --> K[Monitor Ongoing<br/>Performance]
+    J --> E
+    
+    style A fill:#f9d5e5,stroke:#333,stroke-width:1px
+    style B fill:#eeac99,stroke:#333,stroke-width:1px
+    style C1 fill:#e06377,stroke:#333,stroke-width:1px
+    style C2 fill:#c83349,stroke:#333,stroke-width:1px
+    style C3 fill:#5b9aa0,stroke:#333,stroke-width:1px
+    style D fill:#d6e1c7,stroke:#333,stroke-width:1px
+    style E fill:#83af9b,stroke:#333,stroke-width:1px
+    style F fill:#f9cdad,stroke:#333,stroke-width:1px
+    style G fill:#fe4365,stroke:#333,stroke-width:1px
+    style H1 fill:#fc9d9a,stroke:#333,stroke-width:1px
+    style H2 fill:#f9cdad,stroke:#333,stroke-width:1px
+    style I fill:#c8c8a9,stroke:#333,stroke-width:1px
+    style J fill:#83af9b,stroke:#333,stroke-width:1px
+    style K fill:#91a8d0,stroke:#333,stroke-width:1px
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Diagram Description</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="system-arch-desc" class="diagram-desc">
+                            <p>This system architecture diagram shows the complete data flow of the AI Bot for Real Estate Outreach platform. The system integrates data from multiple sources, processes it through a central CRM, and uses an AI-powered chatbot to conduct conversations via SMS.</p>
+                            <p><strong>Key components include:</strong></p>
+                            <ul>
+                                <li><strong>Data Sources:</strong> Property ownership, contact information from skip tracing, property details, and market data</li>
+                                <li><strong>Core System:</strong> CRM, AI Engine, SMS Platform, and Analytics Engine</li>
+                                <li><strong>User Interface:</strong> Admin dashboard, lead notifications, conversation monitoring, and campaign management</li>
+                                <li><strong>Outreach Process:</strong> Initial contact, conversation flow, lead qualification, human handoff, and nurture sequences</li>
+                                <li><strong>External Systems:</strong> Property owners (SMS recipients), real estate agents, and transaction platforms</li>
+                            </ul>
+                        </div>
+                        <div id="convo-flow-desc" class="diagram-desc" style="display:none;">
+                            <p>The conversation flow diagram illustrates the AI chatbot's decision-making process during property owner interactions. It shows how the system handles different response types and qualification paths.</p>
+                            <p><strong>Key stages include:</strong></p>
+                            <ul>
+                                <li><strong>Initial Outreach:</strong> Sending the first message and awaiting response</li>
+                                <li><strong>Response Analysis:</strong> Identifying intent (interested, not interested, needs more info, skeptical)</li>
+                                <li><strong>Qualification Process:</strong> Asking about property status, financial questions, and timeframe</li>
+                                <li><strong>Lead Scoring:</strong> Categorizing leads as high, medium, or low value</li>
+                                <li><strong>Next Steps:</strong> Human handoff for high-value leads, nurture sequences for others</li>
+                            </ul>
+                        </div>
+                        <div id="ab-testing-desc" class="diagram-desc" style="display:none;">
+                            <p>The A/B testing implementation diagram shows how message variants are tested, analyzed, and optimized over time to improve conversion rates.</p>
+                            <p><strong>Key phases include:</strong></p>
+                            <ul>
+                                <li><strong>Test Creation:</strong> Developing multiple message variants with different tones and approaches</li>
+                                <li><strong>Audience Segmentation:</strong> Randomly dividing contacts for fair comparison</li>
+                                <li><strong>Performance Tracking:</strong> Measuring response rates and engagement</li>
+                                <li><strong>Winner Selection:</strong> Identifying the best-performing variant</li>
+                                <li><strong>Continuous Improvement:</strong> Using winners as controls for new test cycles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Segoe UI, sans-serif'
+        });
+
+        // Component highlight data
+        const componentData = {
+            'system-arch': [
+                { id: 'data-sources', label: 'Data Sources', nodes: ['A1', 'A2', 'A3', 'A4', 'A5'] },
+                { id: 'core-system', label: 'Core System', nodes: ['B1', 'B2', 'B3', 'B4'] },
+                { id: 'ui', label: 'User Interface', nodes: ['C1', 'C2', 'C3', 'C4'] },
+                { id: 'outreach', label: 'Outreach Process', nodes: ['D1', 'D2', 'D3', 'D4', 'D5'] },
+                { id: 'external', label: 'External Systems', nodes: ['E1', 'E2', 'E3'] }
+            ],
+            'convo-flow': [
+                { id: 'initial', label: 'Initial Outreach', nodes: ['InitialOutreach', 'SendMessage', 'AwaitingResponse'] },
+                { id: 'analysis', label: 'Response Analysis', nodes: ['ResponseAnalysis', 'IdentifyIntent'] },
+                { id: 'qualification', label: 'Qualification Process', nodes: ['QualificationProcess', 'AskPropertyStatus', 'AskFinancialQuestions'] },
+                { id: 'lead-scoring', label: 'Lead Scoring', nodes: ['ScoreLead', 'HighValue', 'MediumValue', 'LowValue'] }
+            ],
+            'ab-testing': [
+                { id: 'test-creation', label: 'Test Creation', nodes: ['A', 'B', 'C1', 'C2', 'C3'] },
+                { id: 'analysis', label: 'Analysis & Selection', nodes: ['E', 'F', 'G'] },
+                { id: 'optimization', label: 'Optimization Cycle', nodes: ['H1', 'H2', 'I', 'J', 'K'] }
+            ]
+        };
+
+        // Current zoom level
+        let zoomLevel = 1;
+        const zoomStep = 0.1;
+
+        // When the document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial diagram render
+            mermaid.init(undefined, '.mermaid-diagram');
+            
+            // Populate highlights for first diagram
+            populateHighlights('system-arch');
+
+            // Diagram selector
+            document.getElementById('diagram-selector').addEventListener('change', function() {
+                // Hide all diagrams and descriptions
+                document.querySelectorAll('.mermaid-diagram').forEach(el => {
+                    el.style.display = 'none';
+                });
+                document.querySelectorAll('.diagram-desc').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                // Show selected diagram and description
+                const selectedId = this.value;
+                document.getElementById(selectedId).style.display = 'block';
+                document.getElementById(`${selectedId}-desc`).style.display = 'block';
+                
+                // Reset zoom
+                zoomLevel = 1;
+                applyZoom();
+                
+                // Update highlights
+                populateHighlights(selectedId);
+            });
+            
+            // Zoom controls
+            document.getElementById('zoom-in').addEventListener('click', function() {
+                zoomLevel += zoomStep;
+                applyZoom();
+            });
+            
+            document.getElementById('zoom-out').addEventListener('click', function() {
+                if (zoomLevel > zoomStep) {
+                    zoomLevel -= zoomStep;
+                    applyZoom();
+                }
+            });
+            
+            document.getElementById('reset-zoom').addEventListener('click', function() {
+                zoomLevel = 1;
+                applyZoom();
+            });
+        });
+
+        // Apply zoom to diagrams
+        function applyZoom() {
+            const diagrams = document.querySelectorAll('.mermaid-diagram');
+            diagrams.forEach(el => {
+                el.style.transform = `scale(${zoomLevel})`;
+                el.style.transformOrigin = 'top left';
+            });
+        }
+
+        // Populate highlights for a diagram
+        function populateHighlights(diagramId) {
+            const highlightsContainer = document.getElementById('highlights');
+            highlightsContainer.innerHTML = '';
+            
+            // Add highlight options
+            if (componentData[diagramId]) {
+                componentData[diagramId].forEach(component => {
+                    const div = document.createElement('div');
+                    div.textContent = component.label;
+                    div.className = 'highlight-item';
+                    div.setAttribute('data-component', component.id);
+                    div.setAttribute('data-nodes', component.nodes.join(','));
+                    div.addEventListener('click', function() {
+                        highlightComponent(this.getAttribute('data-nodes').split(','));
+                    });
+                    highlightsContainer.appendChild(div);
+                });
+            }
+        }
+
+        // Highlight a component in the diagram
+        function highlightComponent(nodeIds) {
+            // This function would need SVG manipulation which is complex to implement here
+            // In a real implementation, you would select the SVG elements by ID and apply highlighting
+            alert(`Highlighting component with nodes: ${nodeIds.join(', ')}`);
+        }
+    </script>
+</body>
+</html>

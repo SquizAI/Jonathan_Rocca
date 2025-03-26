@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Bot Architecture Diagrams</title>
+    <!-- Load Mermaid from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f7;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #4299e1;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #4299e1;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            background-color: #edf2f7;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: #4299e1;
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #e2e8f0;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .diagram-container {
+            overflow: auto;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        
+        .controls {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        button {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3182ce;
+        }
+        
+        .description {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .description h3 {
+            margin-top: 0;
+            color: #4299e1;
+        }
+        
+        .zoom-level {
+            margin-left: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #718096;
+            font-size: 0.9em;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Bot for Real Estate Outreach</h1>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="system">System Architecture</div>
+            <div class="tab" data-tab="conversation">Conversation Flow</div>
+            <div class="tab" data-tab="ab-testing">A/B Testing Framework</div>
+        </div>
+        
+        <div class="controls">
+            <button id="zoom-in">Zoom In (+)</button>
+            <button id="zoom-out">Zoom Out (-)</button>
+            <button id="reset-zoom">Reset Zoom</button>
+            <span class="zoom-level">Zoom: <span id="zoom-value">100%</span></span>
+        </div>
+        
+        <div class="tab-content active" id="system-tab">
+            <div class="diagram-container" id="system-container">
+                <pre class="mermaid" id="system-diagram">
+graph TD
+    subgraph "Data Sources"
+        A1["Property Ownership Data"] --> A2["Data Processing Pipeline"]
+        A3["Contact Information<br/>(Skip Tracing)"] --> A2
+        A4["Property Details<br/>(APNs, Addresses)"] --> A2
+        A5["Market Data"] --> A2
+    end
+
+    subgraph "Core System"
+        B1["CRM System<br/>(Go High Level)"]
+        B2["AI Engine<br/>(LLM-based Chatbot)"]
+        B3["SMS Platform<br/>(Twilio)"]
+        B4["Analytics Engine"]
+        
+        A2 --> B1
+        B1 <--> B2
+        B2 <--> B3
+        B1 <--> B4
+        B2 --> B4
+        B3 --> B4
+    end
+    
+    subgraph "User Interface"
+        C1["Admin Dashboard"]
+        C2["Lead Notification System"]
+        C3["Conversation Monitoring"]
+        C4["Campaign Management"]
+        
+        B1 --> C1
+        B1 --> C2
+        B3 --> C3
+        B1 --> C4
+        B4 --> C1
+    end
+    
+    subgraph "Outreach Process"
+        D1["Initial Contact"]
+        D2["Conversation Flow"]
+        D3["Lead Qualification"]
+        D4["Human Handoff"]
+        D5["Nurture Sequences"]
+        
+        D1 --> D2
+        D2 --> D3
+        D3 --> D4
+        D3 --> D5
+        D5 -.-> D1
+    end
+    
+    B3 <--> D1
+    B2 <--> D2
+    B2 <--> D3
+    B1 <--> D4
+    B1 <--> D5
+    
+    subgraph "External Systems"
+        E1["Property Owners<br/>(SMS Recipients)"]
+        E2["Real Estate Agents"]
+        E3["Transaction Platform"]
+        
+        D1 <--> E1
+        D2 <--> E1
+        D4 --> E2
+        E2 <--> E3
+    end
+    
+    style A1 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A2 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A3 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A4 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A5 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    
+    style B1 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B2 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B3 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B4 fill:#ffdebd,stroke:#333,stroke-width:2px
+    
+    style C1 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C2 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C3 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C4 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    
+    style D1 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D2 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D3 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D4 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D5 fill:#fadbd8,stroke:#333,stroke-width:1px
+    
+    style E1 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E2 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E3 fill:#e8daef,stroke:#333,stroke-width:1px
+                </pre>
+            </div>
+            
+            <div class="description">
+                <h3>System Architecture Overview</h3>
+                <p>This diagram illustrates the complete system architecture for the AI Bot real estate outreach platform, showing how data flows through the different components:</p>
+                <ul>
+                    <li><strong>Data Sources</strong> (Blue): Property data, contact information, and market data are collected and processed.</li>
+                    <li><strong>Core System</strong> (Orange): The CRM system integrates with the AI Engine and SMS platform to manage contacts and conversations.</li>
+                    <li><strong>User Interface</strong> (Green): Provides dashboards and monitoring tools for the real estate team.</li>
+                    <li><strong>Outreach Process</strong> (Red): The workflow from initial contact through qualification to handoff.</li>
+                    <li><strong>External Systems</strong> (Purple): Property owners, agents, and transaction platforms that interact with the system.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="conversation-tab">
+            <div class="diagram-container" id="conversation-container">
+                <pre class="mermaid" id="conversation-diagram">
+stateDiagram-v2
+    [*] --> InitialOutreach
+    
+    state InitialOutreach {
+        [*] --> SendMessage
+        SendMessage --> AwaitingResponse
+        AwaitingResponse --> NoResponse: 24hrs elapsed
+        NoResponse --> ScheduleFollowUp
+        AwaitingResponse --> ResponseReceived
+    }
+    
+    state ResponseAnalysis {
+        [*] --> IdentifyIntent
+        IdentifyIntent --> Interested: Positive signals
+        IdentifyIntent --> NotInterested: Clear rejection
+        IdentifyIntent --> NeedsMoreInfo: Questions detected
+        IdentifyIntent --> Skeptical: Objections detected
+    }
+    
+    ResponseReceived --> ResponseAnalysis
+    
+    state QualificationProcess {
+        [*] --> AskPropertyStatus
+        AskPropertyStatus --> AskFinancialQuestions
+        AskFinancialQuestions --> AssessTimeframe
+        AssessTimeframe --> ScoreLead
+    }
+    
+    Interested --> QualificationProcess
+    NotInterested --> ScheduleFollowUp: 6-8 weeks later
+    NeedsMoreInfo --> ProvideInformation
+    Skeptical --> HandleObjection
+    
+    ProvideInformation --> RequestNextAction
+    HandleObjection --> RequestNextAction
+    
+    RequestNextAction --> ResponseAnalysis
+    
+    ScoreLead --> HighValue: Score > 80%
+    ScoreLead --> MediumValue: Score 40-80%
+    ScoreLead --> LowValue: Score < 40%
+    
+    HighValue --> TriggerHumanHandoff
+    MediumValue --> ScheduleFollowUp: 1-2 weeks later
+    LowValue --> ScheduleFollowUp: 1-3 months later
+    
+    TriggerHumanHandoff --> [*]
+    ScheduleFollowUp --> [*]
+                </pre>
+            </div>
+            
+            <div class="description">
+                <h3>Conversation Flow</h3>
+                <p>This state diagram shows the AI chatbot's decision-making process during property owner interactions:</p>
+                <ul>
+                    <li><strong>Initial Outreach</strong>: The process begins by sending the first message to the property owner.</li>
+                    <li><strong>Response Analysis</strong>: The AI identifies the intent behind the property owner's response.</li>
+                    <li><strong>Qualification Process</strong>: For interested owners, the bot asks a series of qualifying questions.</li>
+                    <li><strong>Lead Scoring</strong>: Based on responses, leads are categorized as high, medium, or low value.</li>
+                    <li><strong>Action Paths</strong>: High-value leads trigger human handoff, while others are placed in nurture sequences.</li>
+                </ul>
+                <p>The system handles various response scenarios including no response, objections, and information requests, with appropriate follow-up actions for each.</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="ab-testing-tab">
+            <div class="diagram-container" id="ab-testing-container">
+                <pre class="mermaid" id="ab-testing-diagram">
+flowchart TD
+    A[Start Campaign] --> B{Create Test Variants}
+    B --> C1[Variant A:<br/>Professional Tone]
+    B --> C2[Variant B:<br/>Casual Tone]
+    B --> C3[Variant C:<br/>Problem-Solution]
+    
+    C1 --> D[Segment Audience<br/>Randomly]
+    C2 --> D
+    C3 --> D
+    
+    D --> E[Send Messages<br/>Track Performance]
+    
+    E --> F[Analyze Results]
+    F --> G{Select Winner}
+    
+    G --> H1[Winner Becomes<br/>New Control]
+    G --> H2[Create New<br/>Test Variants]
+    
+    H1 --> I[Scale to<br/>Full Audience]
+    H2 --> J[Start New<br/>Test Cycle]
+    
+    I --> K[Monitor Ongoing<br/>Performance]
+    J --> E
+    
+    style A fill:#f9d5e5,stroke:#333,stroke-width:1px
+    style B fill:#eeac99,stroke:#333,stroke-width:1px
+    style C1 fill:#e06377,stroke:#333,stroke-width:1px
+    style C2 fill:#c83349,stroke:#333,stroke-width:1px
+    style C3 fill:#5b9aa0,stroke:#333,stroke-width:1px
+    style D fill:#d6e1c7,stroke:#333,stroke-width:1px
+    style E fill:#83af9b,stroke:#333,stroke-width:1px
+    style F fill:#f9cdad,stroke:#333,stroke-width:1px
+    style G fill:#fe4365,stroke:#333,stroke-width:1px
+    style H1 fill:#fc9d9a,stroke:#333,stroke-width:1px
+    style H2 fill:#f9cdad,stroke:#333,stroke-width:1px
+    style I fill:#c8c8a9,stroke:#333,stroke-width:1px
+    style J fill:#83af9b,stroke:#333,stroke-width:1px
+    style K fill:#91a8d0,stroke:#333,stroke-width:1px
+                </pre>
+            </div>
+            
+            <div class="description">
+                <h3>A/B Testing Framework</h3>
+                <p>This flowchart illustrates the continuous improvement process for message optimization:</p>
+                <ul>
+                    <li><strong>Test Creation</strong>: Multiple message variants are created with different tones and approaches.</li>
+                    <li><strong>Audience Segmentation</strong>: Property owners are randomly assigned to receive different message variants.</li>
+                    <li><strong>Performance Tracking</strong>: Response rates and engagement metrics are measured for each variant.</li>
+                    <li><strong>Winner Selection</strong>: The best-performing variant is identified based on conversion metrics.</li>
+                    <li><strong>Optimization Cycle</strong>: The winning variant becomes the control for future tests, creating a continuous improvement loop.</li>
+                </ul>
+                <p>This framework ensures that outreach messages become increasingly effective over time, leading to higher engagement and conversion rates.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 AI Bot for Real Estate Outreach | Development Plan</p>
+    </footer>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+        
+        // Initialize zoom level
+        let zoomLevel = 1;
+        const zoomStep = 0.1;
+        
+        // Dom elements
+        const systemDiagram = document.getElementById('system-diagram');
+        const conversationDiagram = document.getElementById('conversation-diagram');
+        const abTestingDiagram = document.getElementById('ab-testing-diagram');
+        
+        // Zoom controls
+        document.getElementById('zoom-in').addEventListener('click', function() {
+            zoomLevel += zoomStep;
+            updateZoom();
+        });
+        
+        document.getElementById('zoom-out').addEventListener('click', function() {
+            if (zoomLevel > zoomStep) {
+                zoomLevel -= zoomStep;
+                updateZoom();
+            }
+        });
+        
+        document.getElementById('reset-zoom').addEventListener('click', function() {
+            zoomLevel = 1;
+            updateZoom();
+        });
+        
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show corresponding tab content
+                const tabId = this.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+                
+                // Redraw diagrams to ensure proper rendering
+                mermaid.init(undefined, '.mermaid');
+                
+                // Reset zoom for the new tab
+                updateZoom();
+            });
+        });
+        
+        // Update zoom level display and apply zoom
+        function updateZoom() {
+            document.getElementById('zoom-value').textContent = Math.round(zoomLevel * 100) + '%';
+            
+            // Apply zoom transform to SVG containers
+            document.querySelectorAll('.diagram-container svg').forEach(svg => {
+                svg.style.transform = `scale(${zoomLevel})`;
+                svg.style.transformOrigin = 'top left';
+            });
+        }
+        
+        // Wait for Mermaid to render diagrams, then apply initial zoom
+        window.addEventListener('load', function() {
+            setTimeout(updateZoom, 500);
+        });
+    </script>
+</body>
+</html>
