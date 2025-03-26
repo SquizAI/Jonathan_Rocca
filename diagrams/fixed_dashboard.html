@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropBot: Modular System Architecture</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3c68b1;
+            --primary-light: #eef2f9;
+            --secondary: #ff6b6b;
+            --text: #333;
+            --light-text: #6c757d;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            padding: 20px 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .dashboard-header h1 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-header p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .diagram-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .diagram-header h2 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .diagram-container {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 15px;
+            overflow: auto;
+            background-color: white;
+            min-height: 250px;
+        }
+        
+        .full-diagram {
+            margin-top: 40px;
+        }
+        
+        .full-diagram .diagram-container {
+            min-height: 500px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid var(--primary-light);
+            margin-bottom: 30px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 10px 20px;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border: none;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        .nav-tabs .nav-link.active {
+            border: none;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--light-text);
+            font-size: 0.9em;
+            border-top: 1px solid #eaeaea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>PropBot: Modular System Architecture</h1>
+            <p>Interactive system architecture diagrams broken down by component</p>
+        </div>
+        
+        <ul class="nav nav-tabs" id="diagramTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="components-tab" data-bs-toggle="tab" data-bs-target="#components" type="button" role="tab" aria-controls="components" aria-selected="true">System Components</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="full-tab" data-bs-toggle="tab" data-bs-target="#full" type="button" role="tab" aria-controls="full" aria-selected="false">Complete System</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button" role="tab" aria-controls="other" aria-selected="false">Other Diagrams</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="diagramTabsContent">
+            <!-- System Components Tab -->
+            <div class="tab-pane fade show active" id="components" role="tabpanel" aria-labelledby="components-tab">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>Data Sources</h2>
+                            </div>
+                            <div class="diagram-container" id="data-sources-container">
+                                <div class="mermaid">
+graph TD
+    subgraph "Data Sources"
+        A1["Property Ownership Data"] --> A2["Data Processing Pipeline"]
+        A3["Contact Information<br/>(Skip Tracing)"] --> A2
+        A4["Property Details<br/>(APNs, Addresses)"] --> A2
+        A5["Market Data"] --> A2
+    end
+    
+    style A1 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A2 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A3 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A4 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A5 fill:#d4f1f9,stroke:#333,stroke-width:1px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>Core System</h2>
+                            </div>
+                            <div class="diagram-container" id="core-system-container">
+                                <div class="mermaid">
+graph TD
+    subgraph "Core System"
+        B1["CRM System<br/>(Go High Level)"]
+        B2["AI Engine<br/>(LLM-based Chatbot)"]
+        B3["SMS Platform<br/>(Twilio)"]
+        B4["Analytics Engine"]
+        
+        B1 <--> B2
+        B2 <--> B3
+        B1 <--> B4
+        B2 --> B4
+        B3 --> B4
+    end
+    
+    style B1 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B2 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B3 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B4 fill:#ffdebd,stroke:#333,stroke-width:2px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>User Interface</h2>
+                            </div>
+                            <div class="diagram-container" id="user-interface-container">
+                                <div class="mermaid">
+graph TD
+    subgraph "User Interface"
+        C1["Admin Dashboard"]
+        C2["Lead Notification System"]
+        C3["Conversation Monitoring"]
+        C4["Campaign Management"]
+        
+        C1 --- C2
+        C2 --- C3
+        C3 --- C4
+        C4 --- C1
+    end
+    
+    style C1 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C2 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C3 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C4 fill:#d5f5e3,stroke:#333,stroke-width:1px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>Outreach Process</h2>
+                            </div>
+                            <div class="diagram-container" id="outreach-process-container">
+                                <div class="mermaid">
+graph TD
+    subgraph "Outreach Process"
+        D1["Initial Contact"]
+        D2["Conversation Flow"]
+        D3["Lead Qualification"]
+        D4["Human Handoff"]
+        D5["Nurture Sequences"]
+        
+        D1 --> D2
+        D2 --> D3
+        D3 --> D4
+        D3 --> D5
+        D5 -.-> D1
+    end
+    
+    style D1 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D2 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D3 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D4 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D5 fill:#fadbd8,stroke:#333,stroke-width:1px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>External Systems</h2>
+                            </div>
+                            <div class="diagram-container" id="external-systems-container">
+                                <div class="mermaid">
+graph TD
+    subgraph "External Systems"
+        E1["Property Owners<br/>(SMS Recipients)"]
+        E2["Real Estate Agents"]
+        E3["Transaction Platform"]
+        
+        E1 --- E2
+        E2 <--> E3
+    end
+    
+    style E1 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E2 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E3 fill:#e8daef,stroke:#333,stroke-width:1px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>System Connections</h2>
+                            </div>
+                            <div class="diagram-container" id="system-connections-container">
+                                <div class="mermaid">
+graph TD
+    %% Data Sources to Core System
+    A2["Data Processing Pipeline"] --> B1["CRM System"]
+    
+    %% Core System to User Interface
+    B1 --> C1["Admin Dashboard"]
+    B1 --> C2["Lead Notification System"]
+    B3["SMS Platform"] --> C3["Conversation Monitoring"]
+    B1 --> C4["Campaign Management"]
+    B4["Analytics Engine"] --> C1
+    
+    %% Core System to Outreach Process
+    B3 <--> D1["Initial Contact"]
+    B2["AI Engine"] <--> D2["Conversation Flow"]
+    B2 <--> D3["Lead Qualification"]
+    B1 <--> D4["Human Handoff"]
+    B1 <--> D5["Nurture Sequences"]
+    
+    %% Outreach Process to External Systems
+    D1 <--> E1["Property Owners"]
+    D2 <--> E1
+    D4 --> E2["Real Estate Agents"]
+    
+    style A2 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style B1 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B2 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B3 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B4 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style C1 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C2 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C3 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C4 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style D1 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D2 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D3 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D4 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D5 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style E1 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E2 fill:#e8daef,stroke:#333,stroke-width:1px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Complete System Tab -->
+            <div class="tab-pane fade" id="full" role="tabpanel" aria-labelledby="full-tab">
+                <div class="full-diagram">
+                    <div class="diagram-card">
+                        <div class="diagram-header">
+                            <h2>Complete System Architecture</h2>
+                        </div>
+                        <div class="diagram-container" id="complete-system-container">
+                            <div class="mermaid">
+graph TD
+    subgraph "Data Sources"
+        A1["Property Ownership Data"] --> A2["Data Processing Pipeline"]
+        A3["Contact Information<br/>(Skip Tracing)"] --> A2
+        A4["Property Details<br/>(APNs, Addresses)"] --> A2
+        A5["Market Data"] --> A2
+    end
+
+    subgraph "Core System"
+        B1["CRM System<br/>(Go High Level)"]
+        B2["AI Engine<br/>(LLM-based Chatbot)"]
+        B3["SMS Platform<br/>(Twilio)"]
+        B4["Analytics Engine"]
+        
+        A2 --> B1
+        B1 <--> B2
+        B2 <--> B3
+        B1 <--> B4
+        B2 --> B4
+        B3 --> B4
+    end
+    
+    subgraph "User Interface"
+        C1["Admin Dashboard"]
+        C2["Lead Notification System"]
+        C3["Conversation Monitoring"]
+        C4["Campaign Management"]
+        
+        B1 --> C1
+        B1 --> C2
+        B3 --> C3
+        B1 --> C4
+        B4 --> C1
+    end
+    
+    subgraph "Outreach Process"
+        D1["Initial Contact"]
+        D2["Conversation Flow"]
+        D3["Lead Qualification"]
+        D4["Human Handoff"]
+        D5["Nurture Sequences"]
+        
+        D1 --> D2
+        D2 --> D3
+        D3 --> D4
+        D3 --> D5
+        D5 -.-> D1
+    end
+    
+    B3 <--> D1
+    B2 <--> D2
+    B2 <--> D3
+    B1 <--> D4
+    B1 <--> D5
+    
+    subgraph "External Systems"
+        E1["Property Owners<br/>(SMS Recipients)"]
+        E2["Real Estate Agents"]
+        E3["Transaction Platform"]
+        
+        D1 <--> E1
+        D2 <--> E1
+        D4 --> E2
+        E2 <--> E3
+    end
+    
+    style A1 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A2 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A3 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A4 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style A5 fill:#d4f1f9,stroke:#333,stroke-width:1px
+    
+    style B1 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B2 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B3 fill:#ffdebd,stroke:#333,stroke-width:2px
+    style B4 fill:#ffdebd,stroke:#333,stroke-width:2px
+    
+    style C1 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C2 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C3 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    style C4 fill:#d5f5e3,stroke:#333,stroke-width:1px
+    
+    style D1 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D2 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D3 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D4 fill:#fadbd8,stroke:#333,stroke-width:1px
+    style D5 fill:#fadbd8,stroke:#333,stroke-width:1px
+    
+    style E1 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E2 fill:#e8daef,stroke:#333,stroke-width:1px
+    style E3 fill:#e8daef,stroke:#333,stroke-width:1px
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other Diagrams Tab -->
+            <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>Conversation Flow</h2>
+                            </div>
+                            <div class="diagram-container" id="conversation-flow-container">
+                                <div class="mermaid">
+stateDiagram-v2
+    [*] --> InitialOutreach
+    
+    state InitialOutreach {
+        [*] --> SendMessage
+        SendMessage --> AwaitingResponse
+        AwaitingResponse --> NoResponse: 24hrs elapsed
+        NoResponse --> ScheduleFollowUp
+        AwaitingResponse --> ResponseReceived
+    }
+    
+    InitialOutreach --> ResponseAnalysis: ResponseReceived
+    
+    state ResponseAnalysis {
+        [*] --> IdentifyIntent
+        IdentifyIntent --> Interested: Positive signals
+        IdentifyIntent --> NotInterested: Clear rejection
+        IdentifyIntent --> NeedsMoreInfo: Questions detected
+        IdentifyIntent --> Skeptical: Objections detected
+    }
+    
+    state QualificationProcess {
+        [*] --> AskPropertyStatus
+        AskPropertyStatus --> AskFinancialQuestions
+        AskFinancialQuestions --> AssessTimeframe
+        AssessTimeframe --> ScoreLead
+    }
+    
+    ResponseAnalysis --> QualificationProcess: Interested
+    ResponseAnalysis --> ScheduleFollowUp: NotInterested
+    
+    ScheduleFollowUp --> [*]: "6-8 weeks later"
+    
+    ResponseAnalysis --> ProvideInformation: NeedsMoreInfo
+    ResponseAnalysis --> HandleObjection: Skeptical
+    
+    ProvideInformation --> RequestNextAction
+    HandleObjection --> RequestNextAction
+    
+    RequestNextAction --> ResponseAnalysis
+    
+    state LeadScoring {
+        ScoreLead --> HighValue: Score > 80%
+        ScoreLead --> MediumValue: Score 40-80%
+        ScoreLead --> LowValue: Score < 40%
+    }
+    
+    QualificationProcess --> LeadScoring
+    
+    LeadScoring --> TriggerHumanHandoff: HighValue
+    LeadScoring --> ScheduleFollowUp: MediumValue
+    LeadScoring --> ScheduleFollowUp: LowValue
+    
+    TriggerHumanHandoff --> [*]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="diagram-card">
+                            <div class="diagram-header">
+                                <h2>A/B Testing Framework</h2>
+                            </div>
+                            <div class="diagram-container" id="ab-testing-container">
+                                <div class="mermaid">
+flowchart TD
+    A[Start Campaign] --> B{Create Test Variants}
+    B --> C1[Variant A:<br/>Professional Tone]
+    B --> C2[Variant B:<br/>Casual Tone]
+    B --> C3[Variant C:<br/>Problem-Solution]
+    
+    C1 --> D[Segment Audience<br/>Randomly]
+    C2 --> D
+    C3 --> D
+    
+    D --> E[Send Messages<br/>Track Performance]
+    
+    E --> F[Analyze Results]
+    F --> G{Select Winner}
+    
+    G --> H1[Winner Becomes<br/>New Control]
+    G --> H2[Create New<br/>Test Variants]
+    
+    H1 --> I[Scale to<br/>Full Audience]
+    H2 --> J[Start New<br/>Test Cycle]
+    
+    I --> K[Monitor Ongoing<br/>Performance]
+    J --> E
+    
+    style A fill:#f9d5e5,stroke:#333,stroke-width:1px
+    style B fill:#eeac99,stroke:#333,stroke-width:1px
+    style C1 fill:#e06377,stroke:#333,stroke-width:1px
+    style C2 fill:#c83349,stroke:#333,stroke-width:1px
+    style C3 fill:#5b9aa0,stroke:#333,stroke-width:1px
+    style D fill:#d6e1c7,stroke:#333,stroke-width:1px
+    style E fill:#83af9b,stroke:#333,stroke-width:1px
+    style F fill:#f9cdad,stroke:#333,stroke-width:1px
+    style G fill:#fe4365,stroke:#333,stroke-width:1px
+    style H1 fill:#fc9d9a,stroke:#333,stroke-width:1px
+    style H2 fill:#f9cdad,stroke:#333,stroke-width:1px
+    style I fill:#c8c8a9,stroke:#333,stroke-width:1px
+    style J fill:#83af9b,stroke:#333,stroke-width:1px
+    style K fill:#91a8d0,stroke:#333,stroke-width:1px
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="container">
+        <p>© 2025 PropBot | Interactive Modular Diagrams</p>
+    </footer>
+
+    <!-- Load required scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Mermaid with specific configuration
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                securityLevel: 'loose',
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true,
+                    curve: 'basis'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
